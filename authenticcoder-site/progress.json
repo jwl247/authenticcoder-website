@@ -1,0 +1,48 @@
+{
+  "updated": "2026-04-03",
+  "version": "4.3.0",
+  "entries": [
+    {
+      "date": "2026-04-03",
+      "title": "Package Handler v4.3.0",
+      "detail": "intake, clonepool, D1 sync all operational",
+      "status": "done"
+    },
+    {
+      "date": "2026-04-03",
+      "title": "Glossary UI",
+      "detail": "live catalog, search, categories, detail panel",
+      "status": "done"
+    },
+    {
+      "date": "2026-04-03",
+      "title": "packages-worker v3.3.0",
+      "detail": "42 tables, all endpoints verified",
+      "status": "done"
+    },
+    {
+      "date": "2026-04-03",
+      "title": "Self-bootstrap installer",
+      "detail": "clean system to operational in one command",
+      "status": "done"
+    },
+    {
+      "date": "2026-04-03",
+      "title": "authenticcoder.com",
+      "detail": "site upgrade, glossary access gate, live progress log",
+      "status": "done"
+    },
+    {
+      "date": "next",
+      "title": "Twin desktop build",
+      "detail": "parallel Linux + Windows, matched paths, sector drives",
+      "status": "next"
+    },
+    {
+      "date": "next",
+      "title": "Life First App",
+      "detail": "AI accountability companion for Laurie, 10 modules",
+      "status": "next"
+    }
+  ]
+}
