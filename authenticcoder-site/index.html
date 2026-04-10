@@ -1059,15 +1059,48 @@ async function loadProgress() {
 }
 loadProgress();
 
-function submitRequest(e) {
+async function submitRequest(e) {
   e.preventDefault();
-  const btn = e.target.querySelector('.form-submit');
+  const form = e.target;
+  const btn  = form.querySelector('.form-submit');
   btn.textContent = 'Sending...';
   btn.disabled = true;
-  setTimeout(() => {
+
+  const inputs  = form.querySelectorAll('input, select, textarea');
+  const [name, github, email, role] = inputs;
+  const reason = form.querySelector('textarea');
+
+  try {
+    const res = await fetch('https://pho-installer-worker.phoenix-jwl.workers.dev/access-request', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name:   name.value.trim(),
+        github: github.value.trim(),
+        email:  email.value.trim(),
+        role:   role.value,
+        reason: reason ? reason.value.trim() : '',
+      }),
+    });
+    const data = await res.json();
     document.getElementById('access-form').style.display = 'none';
-    document.getElementById('form-success').style.display = 'block';
-  }, 800);
+    const success = document.getElementById('form-success');
+    if (data.ok === false && data.status === 'approved') {
+      success.querySelector('.form-success-title').textContent = 'Already approved!';
+      success.querySelector('.form-success-text').textContent  = 'Check your email for your access token.';
+    } else if (data.ok === false) {
+      success.querySelector('.form-success-title').textContent = 'Request already received.';
+      success.querySelector('.form-success-text').textContent  = 'jwl247 will review shortly — keep an eye on GitHub notifications.';
+    } else {
+      success.querySelector('.form-success-title').textContent = 'Request received.';
+      success.querySelector('.form-success-text').textContent  = 'jwl247 will review and approve via GitHub.\nKeep an eye on your notifications.';
+    }
+    success.style.display = 'block';
+  } catch (err) {
+    btn.textContent = 'Try again';
+    btn.disabled    = false;
+    console.error('Request failed:', err);
+  }
 }
 
 // Smooth active nav highlight on scroll
