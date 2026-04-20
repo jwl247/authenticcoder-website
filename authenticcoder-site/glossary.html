@@ -9,305 +9,590 @@
   <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --brown-deep:   #1a0f00;
-      --brown-dark:   #2a1800;
-      --brown-mid:    #3d2400;
-      --brown-warm:   #6b3e0f;
-      --brown-light:  #a0622a;
-      --gold:         #c8922a;
-      --gold-light:   #e8b860;
-      --cream:        #f5ede0;
-      --cream-dark:   #e8d9c4;
-      --text-body:    #d4c4a8;
-      --text-muted:   #8a7560;
-      --text-dark:    #3d2e1e;
-      --px-green:     #00d084;
-      --px-green-dim: #00d08418;
-      --px-border:    #00d08430;
+      --brown-deep:    #1a0F00;
+      --brown-dark:    #2a1800;
+      --brown-mid:     #3d2400;
+      --brown-warm:    #6b3e0f;
+      --brown-light:   #a0622a;
+      --gold:          #c8922a;
+      --gold-light:    #e8b860;
+      --cream:         #f5ede0;
+      --cream-dark:    #e8d9c4;
+      --text-body:     #d4c4a8;
+      --text-muted:    #8a7560;
+      --text-dark:     #3d2e1e;
+      --px-green:      #00d084;
+      --px-green-dim:  #00d08418;
+      --px-border:     #00d08430;
       --serif:  'Lora', Georgia, serif;
       --sans:   'DM Sans', sans-serif;
       --mono:   'DM Mono', monospace;
       --radius: 8px;
     }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-
     body {
       background: var(--brown-deep);
       color: var(--text-body);
       font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.6;
       min-height: 100vh;
     }
 
-    /* ── Nav ── */
+    /* ── NAV ── */
     nav {
       position: sticky; top: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 1rem 2rem;
+      padding: 0 2rem;
+      height: 60px;
       background: rgba(26,15,0,0.92);
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(8px);
       border-bottom: 1px solid rgba(200,146,42,0.15);
     }
-    .nav-brand { font-family: var(--mono); font-size: 0.85rem; color: var(--text-muted); letter-spacing: 0.05em; }
-    .nav-links { list-style: none; display: flex; gap: 2rem; align-items: center; }
+    .nav-brand { font-family: var(--serif); font-size: 1rem; color: var(--cream); text-decoration: none; letter-spacing: 0.02em; }
+    .nav-links { display: flex; align-items: center; gap: 1.5rem; }
     .nav-links a { color: var(--text-body); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
-    .nav-links a:hover { color: var(--cream); }
+    .nav-links a:hover { color: var(--gold-light); }
     .nav-cta {
-      padding: 0.45rem 1rem; border: 1px solid var(--gold);
-      border-radius: var(--radius); color: var(--gold) !important;
-      font-size: 0.85rem; transition: all 0.2s;
-    }
-    .nav-cta:hover { background: var(--gold); color: var(--brown-deep) !important; }
-
-    /* ── Page header ── */
-    .page-header {
-      padding: 4rem 2rem 2rem;
-      max-width: 1100px; margin: 0 auto;
-      border-bottom: 1px solid rgba(200,146,42,0.15);
-    }
-    .page-eyebrow {
-      font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.12em;
-      color: var(--px-green); text-transform: uppercase; margin-bottom: 0.75rem;
-    }
-    .page-title {
-      font-family: var(--serif); font-size: clamp(2rem, 4vw, 3rem);
-      color: var(--cream); font-weight: 600; margin-bottom: 0.75rem;
-    }
-    .page-desc { color: var(--text-muted); font-size: 1rem; max-width: 600px; line-height: 1.6; }
-
-    /* ── Controls ── */
-    .controls {
-      max-width: 1100px; margin: 0 auto;
-      padding: 1.5rem 2rem;
-      display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;
-    }
-    .search-input {
-      flex: 1; min-width: 200px;
-      background: var(--brown-dark);
-      border: 1px solid rgba(200,146,42,0.2);
+      padding: 0.4rem 1rem;
+      border: 1px solid var(--gold);
       border-radius: var(--radius);
-      color: var(--cream); font-family: var(--sans); font-size: 0.9rem;
-      padding: 0.6rem 1rem; outline: none; transition: border-color 0.2s;
+      color: var(--gold) !important;
+      font-size: 0.85rem !important;
+      transition: background 0.2s, color 0.2s !important;
     }
-    .search-input::placeholder { color: var(--text-muted); }
-    .search-input:focus { border-color: var(--gold); }
+    .nav-cta:hover { background: var(--gold) !important; color: var(--brown-deep) !important; }
 
-    .filter-select {
-      background: var(--brown-dark);
-      border: 1px solid rgba(200,146,42,0.2);
-      border-radius: var(--radius);
-      color: var(--text-body); font-family: var(--sans); font-size: 0.85rem;
-      padding: 0.6rem 1rem; outline: none; cursor: pointer;
+    /* ── HERO ── */
+    .hero {
+      text-align: center;
+      padding: 5rem 2rem 3rem;
+      background: radial-gradient(ellipse at 50% 0%, rgba(200,146,42,0.08) 0%, transparent 70%);
     }
-    .filter-select:focus { border-color: var(--gold); }
-
-    .count-badge {
-      font-family: var(--mono); font-size: 0.8rem;
-      color: var(--text-muted); margin-left: auto;
-    }
-    .count-badge span { color: var(--gold); font-weight: 600; }
-
-    /* ── Grid ── */
-    .glossary-grid {
-      max-width: 1100px; margin: 0 auto;
-      padding: 0 2rem 4rem;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 1rem;
-    }
-
-    .pkg-card {
-      background: var(--brown-dark);
-      border: 1px solid rgba(200,146,42,0.12);
-      border-radius: 10px;
-      padding: 1.25rem;
-      transition: border-color 0.2s, transform 0.15s;
-      cursor: default;
-    }
-    .pkg-card:hover {
-      border-color: rgba(200,146,42,0.35);
-      transform: translateY(-1px);
-    }
-
-    .pkg-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.5rem; }
-    .pkg-name {
-      font-family: var(--mono); font-size: 0.95rem;
-      color: var(--cream); font-weight: 500;
-      word-break: break-all;
-    }
-
-    .state-badge {
-      flex-shrink: 0;
-      font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.05em;
-      padding: 0.2rem 0.5rem; border-radius: 4px;
+    .hero-eyebrow {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      border: 1px solid rgba(200,146,42,0.4);
+      border-radius: 20px;
+      padding: 0.3rem 1rem;
+      margin-bottom: 1.5rem;
       text-transform: uppercase;
     }
-    .state-white { background: var(--px-green-dim); color: var(--px-green); border: 1px solid var(--px-border); }
-    .state-grey  { background: rgba(138,117,96,0.15); color: var(--text-muted); border: 1px solid rgba(138,117,96,0.3); }
-    .state-black { background: rgba(200,50,50,0.1); color: #e05555; border: 1px solid rgba(200,50,50,0.25); }
+    .hero h1 {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      color: var(--cream);
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+    .hero h1 em { color: var(--gold-light); font-style: italic; }
+    .hero p {
+      max-width: 560px;
+      margin: 0 auto 2rem;
+      color: var(--text-body);
+      font-size: 1.05rem;
+    }
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      padding: 0.65rem 1.6rem;
+      background: var(--gold);
+      color: var(--brown-deep);
+      border: none;
+      border-radius: var(--radius);
+      font-family: var(--sans);
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+    }
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+    .btn-primary.active { background: var(--px-green); color: #000; }
+    .btn-secondary {
+      padding: 0.65rem 1.6rem;
+      background: transparent;
+      color: var(--cream);
+      border: 1px solid rgba(245,237,224,0.3);
+      border-radius: var(--radius);
+      font-family: var(--sans);
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s, transform 0.15s;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+    }
+    .btn-secondary:hover { border-color: var(--gold); color: var(--gold-light); transform: translateY(-1px); }
 
-    .pkg-desc {
-      font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;
-      margin-bottom: 0.75rem;
-      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    /* ── EDIT MODE BANNER ── */
+    .edit-banner {
+      display: none;
+      background: var(--px-green-dim);
+      border: 1px solid var(--px-border);
+      border-radius: var(--radius);
+      padding: 0.75rem 1.5rem;
+      margin: 0 auto 2rem;
+      max-width: 700px;
+      text-align: center;
+      color: var(--px-green);
+      font-family: var(--mono);
+      font-size: 0.85rem;
+    }
+    .edit-banner.visible { display: block; }
+
+    /* ── CONTROLS ── */
+    .controls {
+      max-width: 900px;
+      margin: 0 auto 2rem;
+      padding: 0 1.5rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .search-wrap { flex: 1; min-width: 200px; position: relative; }
+    .search-wrap svg { position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); opacity: 0.4; pointer-events: none; }
+    #search-input {
+      width: 100%;
+      padding: 0.6rem 0.75rem 0.6rem 2.25rem;
+      background: var(--brown-dark);
+      border: 1px solid rgba(200,146,42,0.2);
+      border-radius: var(--radius);
+      color: var(--cream);
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    #search-input:focus { border-color: var(--gold); }
+    #state-filter {
+      padding: 0.6rem 0.75rem;
+      background: var(--brown-dark);
+      border: 1px solid rgba(200,146,42,0.2);
+      border-radius: var(--radius);
+      color: var(--cream);
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      outline: none;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    #state-filter:focus { border-color: var(--gold); }
+
+    /* ── GRID ── */
+    #glossary-grid {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 1.5rem 4rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.25rem;
     }
 
-    .pkg-meta {
-      display: flex; flex-wrap: wrap; gap: 0.4rem;
+    /* ── CARDS ── */
+    .pkg-card {
+      background: var(--brown-dark);
+      border: 1px solid rgba(200,146,42,0.15);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      transition: border-color 0.2s, transform 0.15s;
+      position: relative;
     }
+    .pkg-card:hover { border-color: rgba(200,146,42,0.4); transform: translateY(-2px); }
+    .edit-mode .pkg-card { cursor: pointer; border-color: rgba(0,208,132,0.2); }
+    .edit-mode .pkg-card:hover { border-color: var(--px-green); }
+    .pkg-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; }
+    .pkg-name { font-family: var(--serif); font-weight: 600; color: var(--cream); font-size: 1.05rem; }
+    .state-badge {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+    .state-stable  { background: rgba(0,208,132,0.15); color: var(--px-green); border: 1px solid rgba(0,208,132,0.3); }
+    .state-beta    { background: rgba(200,146,42,0.15); color: var(--gold-light); border: 1px solid rgba(200,146,42,0.3); }
+    .state-alpha   { background: rgba(255,120,60,0.15); color: #ff8c5a; border: 1px solid rgba(255,120,60,0.3); }
+    .state-deprecated { background: rgba(150,100,80,0.15); color: #b08060; border: 1px solid rgba(150,100,80,0.3); }
+    .state-white   { background: rgba(200,185,165,0.1); color: var(--text-muted); border: 1px solid rgba(200,185,165,0.2); }
+    .pkg-desc { font-size: 0.88rem; color: var(--text-body); margin-bottom: 0.75rem; line-height: 1.5; }
+    .pkg-meta { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.5rem; }
     .pkg-tag {
-      font-family: var(--mono); font-size: 0.7rem;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      color: var(--text-muted); border-radius: 4px; padding: 0.15rem 0.4rem;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      padding: 0.15rem 0.5rem;
+      background: rgba(200,146,42,0.1);
+      border: 1px solid rgba(200,146,42,0.2);
+      border-radius: 4px;
+      color: var(--gold);
     }
-    .pkg-hex {
-      font-family: var(--mono); font-size: 0.65rem;
-      color: rgba(138,117,96,0.5); margin-top: 0.6rem;
-      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-    }
+    .pkg-hex { font-family: var(--mono); font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem; word-break: break-all; }
 
-    /* ── State ── */
-    .loading-state, .empty-state, .error-state {
+    /* ── EDIT OVERLAY ── */
+    .edit-overlay {
+      display: none;
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(26,15,0,0.85);
+      backdrop-filter: blur(6px);
+      align-items: center; justify-content: center;
+      padding: 1.5rem;
+    }
+    .edit-overlay.open { display: flex; }
+    .edit-modal {
+      background: var(--brown-dark);
+      border: 1px solid rgba(200,146,42,0.3);
+      border-radius: 12px;
+      padding: 2rem;
+      width: 100%;
+      max-width: 520px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .edit-modal h3 {
+      font-family: var(--serif);
+      color: var(--cream);
+      margin-bottom: 1.25rem;
+      font-size: 1.2rem;
+    }
+    .edit-field { margin-bottom: 1rem; }
+    .edit-field label {
+      display: block;
+      font-size: 0.78rem;
+      font-family: var(--mono);
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.35rem;
+    }
+    .edit-field input,
+    .edit-field textarea,
+    .edit-field select {
+      width: 100%;
+      padding: 0.55rem 0.75rem;
+      background: var(--brown-mid);
+      border: 1px solid rgba(200,146,42,0.2);
+      border-radius: var(--radius);
+      color: var(--cream);
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .edit-field input:focus,
+    .edit-field textarea:focus,
+    .edit-field select:focus { border-color: var(--gold); }
+    .edit-field textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+    .edit-actions { display: flex; gap: 0.75rem; margin-top: 1.5rem; justify-content: flex-end; }
+    .btn-save {
+      padding: 0.6rem 1.4rem;
+      background: var(--px-green);
+      color: #000;
+      border: none;
+      border-radius: var(--radius);
+      font-weight: 600;
+      cursor: pointer;
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      transition: opacity 0.2s;
+    }
+    .btn-save:hover { opacity: 0.85; }
+    .btn-cancel {
+      padding: 0.6rem 1.4rem;
+      background: transparent;
+      color: var(--text-body);
+      border: 1px solid rgba(200,146,42,0.2);
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-cancel:hover { border-color: var(--gold); color: var(--gold-light); }
+    .save-status {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      padding: 0.4rem 0.75rem;
+      border-radius: var(--radius);
+      display: none;
+    }
+    .save-status.ok  { display: inline-block; color: var(--px-green); background: var(--px-green-dim); border: 1px solid var(--px-border); }
+    .save-status.err { display: inline-block; color: #ff8c5a; background: rgba(255,120,60,0.1); border: 1px solid rgba(255,120,60,0.3); }
+
+    /* ── LOADING / EMPTY ── */
+    .loading, .empty {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--text-muted);
+      font-family: var(--mono);
+      font-size: 0.9rem;
       grid-column: 1 / -1;
-      text-align: center; padding: 4rem 2rem;
-      color: var(--text-muted); font-size: 0.9rem;
     }
-    .loading-dot {
-      display: inline-block; width: 6px; height: 6px;
-      background: var(--px-green); border-radius: 50%;
-      animation: pulse 1.2s ease-in-out infinite;
-      margin: 0 2px;
-    }
-    .loading-dot:nth-child(2) { animation-delay: 0.2s; }
-    .loading-dot:nth-child(3) { animation-delay: 0.4s; }
-    @keyframes pulse { 0%,100%{opacity:0.2} 50%{opacity:1} }
+    .loading::after { content: ''; animation: dots 1.2s steps(3, end) infinite; }
+    @keyframes dots { 0%,20%{content:'.'} 40%{content:'..'} 60%,100%{content:'...'} }
 
-    /* ── Footer ── */
+    /* ── FOOTER ── */
     footer {
       border-top: 1px solid rgba(200,146,42,0.1);
-      padding: 2rem; text-align: center;
-      font-family: var(--mono); font-size: 0.75rem; color: var(--text-muted);
+      padding: 2rem;
+      text-align: center;
+      font-size: 0.82rem;
+      color: var(--text-muted);
     }
     footer a { color: var(--gold); text-decoration: none; }
+    footer a:hover { color: var(--gold-light); }
 
     @media (max-width: 600px) {
-      nav { padding: 1rem; }
-      .nav-links { gap: 1rem; }
-      .page-header, .controls, .glossary-grid { padding-left: 1rem; padding-right: 1rem; }
-      .glossary-grid { grid-template-columns: 1fr; }
+      .controls { flex-direction: column; }
+      .hero-buttons { flex-direction: column; align-items: center; }
     }
   </style>
 </head>
 <body>
 
-<nav>
-  <div class="nav-brand">authenticcoder.com</div>
-  <ul class="nav-links">
-    <li><a href="/#story">Story</a></li>
-    <li><a href="/#phoenix">Phoenix OS</a></li>
-    <li><a href="/glossary">Glossary</a></li>
-    <li><a href="https://github.com/jwl247" target="_blank">GitHub</a></li>
-    <li><a href="#" class="nav-cta">Request Access →</a></li>
-  </ul>
-</nav>
+  <nav>
+    <a href="/" class="nav-brand">authenticcoder.com</a>
+    <div class="nav-links">
+      <a href="/#story">Story</a>
+      <a href="/#phoenix">Phoenix OS</a>
+      <a href="/glossary">Glossary</a>
+      <a href="https://github.com/jwl247" target="_blank" rel="noopener">GitHub</a>
+      <a href="/#access" class="nav-cta">Request Access →</a>
+    </div>
+  </nav>
 
-<div class="page-header">
-  <div class="page-eyebrow">Phoenix DevOps OS — Live Catalog</div>
-  <h1 class="page-title">The Glossary</h1>
-  <p class="page-desc">
-    Every component, script, subsystem, and file in Phoenix DevOps OS —
-    cataloged, versioned, and searchable. Live D1 database. This is the system showing its own work.
-  </p>
-</div>
+  <section class="hero">
+    <div class="hero-eyebrow">Phoenix Package Registry</div>
+    <h1>The <em>living</em> glossary.</h1>
+    <p>Every package, module, and concept in the Phoenix ecosystem — defined, versioned, and hashed.</p>
+    <div class="hero-buttons">
+      <button class="btn-primary" id="edit-toggle-btn" onclick="toggleEditMode()">
+        ✎ Edit Glossary
+      </button>
+      <a class="btn-secondary" href="/review">
+        ⬡ Review Platform
+      </a>
+    </div>
+    <div class="edit-banner" id="edit-banner">
+      ✦ Edit mode active — click any card to edit. Changes go live immediately via the Phoenix worker.
+    </div>
+  </section>
 
-<div class="controls">
-  <input type="search" class="search-input" id="search-input" placeholder="Search by name or description…" oninput="filterCards()">
-  <select class="filter-select" id="state-filter" onchange="filterCards()">
-    <option value="">All states</option>
-    <option value="white">white — active</option>
-    <option value="grey">grey — deprecated</option>
-    <option value="black">black — retired</option>
-  </select>
-  <div class="count-badge">Showing <span id="visible-count">—</span> of <span id="total-count">—</span></div>
-</div>
-
-<div class="glossary-grid" id="glossary-grid">
-  <div class="loading-state">
-    <div class="loading-dot"></div>
-    <div class="loading-dot"></div>
-    <div class="loading-dot"></div>
-    <p style="margin-top:1rem">Loading from D1…</p>
+  <div class="controls">
+    <div class="search-wrap">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" id="search-input" placeholder="Search packages…" oninput="filterCards()">
+    </div>
+    <select id="state-filter" onchange="filterCards()">
+      <option value="">All states</option>
+      <option value="stable">Stable</option>
+      <option value="beta">Beta</option>
+      <option value="alpha">Alpha</option>
+      <option value="deprecated">Deprecated</option>
+    </select>
   </div>
-</div>
 
-<footer>
-  <p>
-    Live data from <a href="https://packages-worker.phoenix-jwl.workers.dev/glossary" target="_blank">packages-worker</a>
-    · Part of <a href="https://github.com/jwl247/Phoenix-Package_handler" target="_blank">Phoenix DevOps OS</a>
-    · Built by <a href="https://github.com/jwl247" target="_blank">jwl247</a>
-  </p>
-</footer>
+  <div id="glossary-grid">
+    <div class="loading">Loading glossary</div>
+  </div>
 
-<script>
-  const WORKER = 'https://packages-worker.phoenix-jwl.workers.dev';
-  let allEntries = [];
+  <!-- Edit overlay modal -->
+  <div class="edit-overlay" id="edit-overlay">
+    <div class="edit-modal">
+      <h3>Edit Entry</h3>
+      <div class="edit-field">
+        <label>Name</label>
+        <input type="text" id="ef-name" placeholder="Package name">
+      </div>
+      <div class="edit-field">
+        <label>Description</label>
+        <textarea id="ef-desc" placeholder="Short description"></textarea>
+      </div>
+      <div class="edit-field">
+        <label>State</label>
+        <select id="ef-state">
+          <option value="stable">stable</option>
+          <option value="beta">beta</option>
+          <option value="alpha">alpha</option>
+          <option value="deprecated">deprecated</option>
+          <option value="white">white</option>
+        </select>
+      </div>
+      <div class="edit-field">
+        <label>Platform (optional)</label>
+        <input type="text" id="ef-platform" placeholder="e.g. cloudflare, node">
+      </div>
+      <div class="edit-field">
+        <label>Backend (optional)</label>
+        <input type="text" id="ef-backend" placeholder="e.g. D1, R2, KV">
+      </div>
+      <div class="edit-field">
+        <label>Version (optional)</label>
+        <input type="text" id="ef-version" placeholder="e.g. 3.4.0">
+      </div>
+      <div class="edit-actions">
+        <span class="save-status" id="save-status"></span>
+        <button class="btn-cancel" onclick="closeEditModal()">Cancel</button>
+        <button class="btn-save" onclick="saveEntry()">Save</button>
+      </div>
+    </div>
+  </div>
 
-  async function loadGlossary() {
-    try {
-      const res = await fetch(WORKER + '/glossary');
-      const data = await res.json();
-      allEntries = data.glossary || [];
-      document.getElementById('total-count').textContent = allEntries.length;
-      renderCards(allEntries);
-    } catch (e) {
-      document.getElementById('glossary-grid').innerHTML =
-        '<div class="error-state">Could not load glossary. Worker may be unreachable.</div>';
+  <footer>
+    <p>authenticcoder.com &mdash; <a href="https://github.com/jwl247" target="_blank" rel="noopener">jwl247</a> &mdash; built on Phoenix OS</p>
+  </footer>
+
+  <script>
+    const WORKER = 'https://packages-worker.phoenix-jwl.workers.dev';
+    let allEntries = [];
+    let editModeActive = false;
+    let currentEditHex = null;
+
+    async function loadGlossary() {
+      try {
+        const res = await fetch(WORKER + '/glossary');
+        const data = await res.json();
+        allEntries = data.packages || data.entries || data || [];
+        renderCards(allEntries);
+      } catch (e) {
+        document.getElementById('glossary-grid').innerHTML =
+          '<div class="empty">Could not load glossary. Worker may be offline.</div>';
+      }
     }
-  }
 
-  function renderCards(entries) {
-    const grid = document.getElementById('glossary-grid');
-    document.getElementById('visible-count').textContent = entries.length;
-
-    if (entries.length === 0) {
-      grid.innerHTML = '<div class="empty-state">No entries match your search.</div>';
-      return;
+    function renderCards(entries) {
+      const grid = document.getElementById('glossary-grid');
+      if (!entries.length) {
+        grid.innerHTML = '<div class="empty">No entries found.</div>';
+        return;
+      }
+      grid.innerHTML = entries.map(pkg => {
+        const stateClass = 'state-' + (pkg.state || 'white');
+        const desc = pkg.description || '';
+        const tags = [pkg.platform, pkg.backend, pkg.version].filter(Boolean);
+        return `<div class="pkg-card" data-hex="${esc(pkg.hex || '')}" onclick="handleCardClick(this, event)">
+          <div class="pkg-header">
+            <div class="pkg-name">${esc(pkg.name)}</div>
+            <span class="state-badge ${stateClass}">${esc(pkg.state || 'white')}</span>
+          </div>
+          ${desc ? `<div class="pkg-desc">${esc(desc)}</div>` : ''}
+          ${tags.length ? `<div class="pkg-meta">${tags.map(t => `<span class="pkg-tag">${esc(t)}</span>`).join('')}</div>` : ''}
+          <div class="pkg-hex">${esc(pkg.hex || '')}</div>
+        </div>`;
+      }).join('');
     }
 
-    grid.innerHTML = entries.map(pkg => {
-      const stateClass = 'state-' + (pkg.state || 'white');
-      const desc = pkg.description || '';
-      const tags = [pkg.platform, pkg.backend, pkg.version].filter(Boolean);
-      return `<div class="pkg-card">
-        <div class="pkg-header">
-          <div class="pkg-name">${esc(pkg.name)}</div>
-          <span class="state-badge ${stateClass}">${esc(pkg.state || 'white')}</span>
-        </div>
-        ${desc ? `<div class="pkg-desc">${esc(desc)}</div>` : ''}
-        ${tags.length ? `<div class="pkg-meta">${tags.map(t => `<span class="pkg-tag">${esc(t)}</span>`).join('')}</div>` : ''}
-        <div class="pkg-hex">${esc(pkg.hex || '')}</div>
-      </div>`;
-    }).join('');
-  }
+    function filterCards() {
+      const q = document.getElementById('search-input').value.toLowerCase();
+      const state = document.getElementById('state-filter').value;
+      const filtered = allEntries.filter(pkg => {
+        const matchQ = !q || (pkg.name || '').toLowerCase().includes(q) || (pkg.description || '').toLowerCase().includes(q);
+        const matchS = !state || pkg.state === state;
+        return matchQ && matchS;
+      });
+      renderCards(filtered);
+    }
 
-  function filterCards() {
-    const q = document.getElementById('search-input').value.toLowerCase();
-    const state = document.getElementById('state-filter').value;
-    const filtered = allEntries.filter(pkg => {
-      const matchQ = !q || (pkg.name || '').toLowerCase().includes(q) || (pkg.description || '').toLowerCase().includes(q);
-      const matchS = !state || pkg.state === state;
-      return matchQ && matchS;
+    function toggleEditMode() {
+      editModeActive = !editModeActive;
+      const btn = document.getElementById('edit-toggle-btn');
+      const banner = document.getElementById('edit-banner');
+      const grid = document.getElementById('glossary-grid');
+      if (editModeActive) {
+        btn.textContent = '✕ Exit Edit Mode';
+        btn.classList.add('active');
+        banner.classList.add('visible');
+        grid.classList.add('edit-mode');
+      } else {
+        btn.textContent = '✎ Edit Glossary';
+        btn.classList.remove('active');
+        banner.classList.remove('visible');
+        grid.classList.remove('edit-mode');
+        closeEditModal();
+      }
+    }
+
+    function handleCardClick(card, e) {
+      if (!editModeActive) return;
+      const hex = card.dataset.hex;
+      const pkg = allEntries.find(p => p.hex === hex);
+      if (!pkg) return;
+      currentEditHex = hex;
+      document.getElementById('ef-name').value     = pkg.name || '';
+      document.getElementById('ef-desc').value     = pkg.description || '';
+      document.getElementById('ef-state').value    = pkg.state || 'stable';
+      document.getElementById('ef-platform').value = pkg.platform || '';
+      document.getElementById('ef-backend').value  = pkg.backend || '';
+      document.getElementById('ef-version').value  = pkg.version || '';
+      document.getElementById('save-status').className = 'save-status';
+      document.getElementById('save-status').textContent = '';
+      document.getElementById('edit-overlay').classList.add('open');
+    }
+
+    function closeEditModal() {
+      document.getElementById('edit-overlay').classList.remove('open');
+      currentEditHex = null;
+    }
+
+    async function saveEntry() {
+      const status = document.getElementById('save-status');
+      const body = {
+        hex:         currentEditHex,
+        name:        document.getElementById('ef-name').value.trim(),
+        description: document.getElementById('ef-desc').value.trim(),
+        state:       document.getElementById('ef-state').value,
+        platform:    document.getElementById('ef-platform').value.trim() || null,
+        backend:     document.getElementById('ef-backend').value.trim() || null,
+        version:     document.getElementById('ef-version').value.trim() || null,
+      };
+      status.className = 'save-status';
+      status.textContent = 'Saving…';
+      status.style.display = 'inline-block';
+      try {
+        const res = await fetch(WORKER + '/glossary', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        });
+        if (res.ok) {
+          status.className = 'save-status ok';
+          status.textContent = '✓ Saved';
+          // Update local cache
+          const idx = allEntries.findIndex(p => p.hex === currentEditHex);
+          if (idx > -1) Object.assign(allEntries[idx], body);
+          filterCards();
+          setTimeout(() => closeEditModal(), 900);
+        } else {
+          const err = await res.json().catch(() => ({}));
+          status.className = 'save-status err';
+          status.textContent = '✕ ' + (err.error || res.status);
+        }
+      } catch (e) {
+        status.className = 'save-status err';
+        status.textContent = '✕ Network error';
+      }
+    }
+
+    function esc(str) {
+      return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    // Close overlay on backdrop click
+    document.getElementById('edit-overlay').addEventListener('click', function(e) {
+      if (e.target === this) closeEditModal();
     });
-    renderCards(filtered);
-  }
 
-  function esc(str) {
-    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  }
-
-  loadGlossary();
-</script>
+    loadGlossary();
+  </script>
 </body>
 </html>
