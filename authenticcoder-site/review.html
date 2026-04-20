@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Review Platform — AuthenticCoder</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brown-deep:    #1a0F00;
+      --brown-dark:    #2a1800;
+      --brown-mid:     #3d2400;
+      --brown-warm:    #6b3e0f;
+      --brown-light:   #a0622a;
+      --gold:          #c8922a;
+      --gold-light:    #e8b860;
+      --cream:         #f5ede0;
+      --cream-dark:    #e8d9c4;
+      --text-body:     #d4c4a8;
+      --text-muted:    #8a7560;
+      --text-dark:     #3d2e1e;
+      --px-green:      #00d084;
+      --px-green-dim:  #00d08418;
+      --px-border:     #00d08430;
+      --red-dim:       #ff4d4d18;
+      --red-border:    #ff4d4d40;
+      --red:           #ff6b6b;
+      --serif:  'Lora', Georgia, serif;
+      --sans:   'DM Sans', sans-serif;
+      --mono:   'DM Mono', monospace;
+      --radius: 8px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--brown-deep);
+      color: var(--text-body);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem; height: 60px;
+      background: rgba(26,15,0,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(200,146,42,0.15);
+    }
+    .nav-brand { font-family: var(--serif); font-size: 1rem; color: var(--cream); text-decoration: none; letter-spacing: 0.02em; }
+    .nav-links { display: flex; align-items: center; gap: 1.5rem; }
+    .nav-links a { color: var(--text-body); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--gold-light); }
+    .nav-cta {
+      padding: 0.4rem 1rem;
+      border: 1px solid var(--gold); border-radius: var(--radius);
+      color: var(--gold) !important; font-size: 0.85rem !important;
+      transition: background 0.2s, color 0.2s !important;
+    }
+    .nav-cta:hover { background: var(--gold) !important; color: var(--brown-deep) !important; }
+
+    /* ── HERO ── */
+    .hero {
+      text-align: center; padding: 5rem 2rem 3rem;
+      background: radial-gradient(ellipse at 50% 0%, rgba(200,146,42,0.08) 0%, transparent 70%);
+    }
+    .hero-eyebrow {
+      display: inline-block; font-family: var(--mono); font-size: 0.72rem;
+      letter-spacing: 0.15em; color: var(--gold);
+      border: 1px solid rgba(200,146,42,0.4); border-radius: 20px;
+      padding: 0.3rem 1rem; margin-bottom: 1.5rem; text-transform: uppercase;
+    }
+    .hero h1 { font-family: var(--serif); font-size: clamp(2rem, 5vw, 3.2rem); color: var(--cream); line-height: 1.2; margin-bottom: 1rem; }
+    .hero h1 em { color: var(--gold-light); font-style: italic; }
+    .hero p { max-width: 560px; margin: 0 auto 2rem; color: var(--text-body); font-size: 1.05rem; }
+    .hero-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    /* ── BUTTONS ── */
+    .btn-primary {
+      padding: 0.65rem 1.6rem; background: var(--gold); color: var(--brown-deep);
+      border: none; border-radius: var(--radius); font-family: var(--sans);
+      font-size: 0.95rem; font-weight: 600; cursor: pointer; text-decoration: none;
+      transition: background 0.2s, transform 0.15s; display: inline-flex; align-items: center; gap: 0.5rem;
+    }
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+    .btn-secondary {
+      padding: 0.65rem 1.6rem; background: transparent; color: var(--cream);
+      border: 1px solid rgba(245,237,224,0.3); border-radius: var(--radius);
+      font-family: var(--sans); font-size: 0.95rem; font-weight: 500; cursor: pointer;
+      text-decoration: none; transition: border-color 0.2s, color 0.2s, transform 0.15s;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+    }
+    .btn-secondary:hover { border-color: var(--gold); color: var(--gold-light); transform: translateY(-1px); }
+
+    /* ── TABS ── */
+    .tabs-wrap { max-width: 900px; margin: 0 auto 2rem; padding: 0 1.5rem; }
+    .tabs { display: flex; gap: 0; border-bottom: 1px solid rgba(200,146,42,0.2); }
+    .tab-btn {
+      padding: 0.65rem 1.25rem; background: none; border: none;
+      border-bottom: 2px solid transparent; color: var(--text-muted);
+      font-family: var(--sans); font-size: 0.9rem; cursor: pointer;
+      transition: color 0.2s, border-color 0.2s; margin-bottom: -1px;
+    }
+    .tab-btn:hover { color: var(--gold-light); }
+    .tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+    /* ── STATS BAR ── */
+    .stats-bar {
+      max-width: 900px; margin: 0 auto 2rem; padding: 0 1.5rem;
+      display: flex; gap: 1rem; flex-wrap: wrap;
+    }
+    .stat-pill {
+      font-family: var(--mono); font-size: 0.78rem;
+      padding: 0.3rem 0.85rem;
+      background: var(--brown-dark);
+      border: 1px solid rgba(200,146,42,0.2);
+      border-radius: 20px; color: var(--text-body);
+    }
+    .stat-pill strong { color: var(--gold); }
+
+    /* ── SUBMIT FORM ── */
+    .submit-panel {
+      display: none; max-width: 600px; margin: 0 auto 2.5rem; padding: 0 1.5rem;
+    }
+    .submit-panel.open { display: block; }
+    .submit-card {
+      background: var(--brown-dark); border: 1px solid rgba(200,146,42,0.25);
+      border-radius: 12px; padding: 1.75rem;
+    }
+    .submit-card h3 { font-family: var(--serif); color: var(--cream); font-size: 1.1rem; margin-bottom: 1.25rem; }
+    .form-field { margin-bottom: 1rem; }
+    .form-field label {
+      display: block; font-size: 0.75rem; font-family: var(--mono);
+      color: var(--gold); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.35rem;
+    }
+    .form-field input, .form-field textarea {
+      width: 100%; padding: 0.55rem 0.75rem;
+      background: var(--brown-mid); border: 1px solid rgba(200,146,42,0.2);
+      border-radius: var(--radius); color: var(--cream);
+      font-family: var(--sans); font-size: 0.9rem; outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-field input:focus, .form-field textarea:focus { border-color: var(--gold); }
+    .form-field textarea { resize: vertical; min-height: 90px; line-height: 1.5; }
+    .form-actions { display: flex; gap: 0.75rem; margin-top: 1.25rem; align-items: center; }
+    .submit-status {
+      font-family: var(--mono); font-size: 0.8rem;
+      padding: 0.35rem 0.75rem; border-radius: var(--radius); display: none;
+    }
+    .submit-status.ok  { display: inline-block; color: var(--px-green); background: var(--px-green-dim); border: 1px solid var(--px-border); }
+    .submit-status.err { display: inline-block; color: var(--red); background: var(--red-dim); border: 1px solid var(--red-border); }
+
+    /* ── REVIEW GRID ── */
+    #review-grid {
+      max-width: 900px; margin: 0 auto; padding: 0 1.5rem 4rem;
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+    .review-card {
+      background: var(--brown-dark); border: 1px solid rgba(200,146,42,0.15);
+      border-radius: var(--radius); padding: 1.5rem;
+      transition: border-color 0.2s;
+    }
+    .review-card:hover { border-color: rgba(200,146,42,0.35); }
+    .review-card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 0.75rem; flex-wrap: wrap; }
+    .review-title { font-family: var(--serif); font-size: 1.1rem; color: var(--cream); font-weight: 600; }
+    .review-status {
+      font-family: var(--mono); font-size: 0.65rem; padding: 0.2rem 0.6rem;
+      border-radius: 4px; text-transform: uppercase; letter-spacing: 0.06em; white-space: nowrap;
+    }
+    .status-pending    { background: rgba(200,146,42,0.15); color: var(--gold-light); border: 1px solid rgba(200,146,42,0.3); }
+    .status-approved   { background: var(--px-green-dim); color: var(--px-green); border: 1px solid var(--px-border); }
+    .status-rejected   { background: var(--red-dim); color: var(--red); border: 1px solid var(--red-border); }
+    .review-desc { font-size: 0.9rem; color: var(--text-body); margin-bottom: 0.85rem; line-height: 1.55; }
+    .review-meta { display: flex; gap: 1.25rem; flex-wrap: wrap; font-family: var(--mono); font-size: 0.72rem; color: var(--text-muted); margin-bottom: 1rem; }
+    .review-hex { font-family: var(--mono); font-size: 0.68rem; color: var(--text-muted); margin-bottom: 1rem; word-break: break-all; }
+    .vote-row { display: flex; gap: 0.65rem; align-items: center; flex-wrap: wrap; }
+    .vote-btn {
+      padding: 0.4rem 1rem; border-radius: var(--radius); border: 1px solid;
+      font-family: var(--sans); font-size: 0.82rem; font-weight: 500; cursor: pointer;
+      transition: background 0.2s, transform 0.1s; display: flex; align-items: center; gap: 0.35rem;
+    }
+    .vote-btn:hover { transform: translateY(-1px); }
+    .vote-approve { background: var(--px-green-dim); border-color: var(--px-border); color: var(--px-green); }
+    .vote-approve:hover { background: rgba(0,208,132,0.25); }
+    .vote-reject  { background: var(--red-dim); border-color: var(--red-border); color: var(--red); }
+    .vote-reject:hover { background: rgba(255,77,77,0.2); }
+    .vote-tally { font-family: var(--mono); font-size: 0.75rem; color: var(--text-muted); margin-left: auto; }
+    .vote-tally span { color: var(--text-body); }
+
+    /* ── VERIFY STRIP ── */
+    .verify-strip {
+      max-width: 900px; margin: 0 auto 1.5rem; padding: 0 1.5rem;
+      display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;
+    }
+    .verify-input {
+      flex: 1; min-width: 200px; padding: 0.55rem 0.75rem;
+      background: var(--brown-dark); border: 1px solid rgba(200,146,42,0.2);
+      border-radius: var(--radius); color: var(--cream);
+      font-family: var(--mono); font-size: 0.85rem; outline: none;
+      transition: border-color 0.2s;
+    }
+    .verify-input:focus { border-color: var(--gold); }
+    .verify-result {
+      font-family: var(--mono); font-size: 0.8rem; padding: 0.4rem 0.85rem;
+      border-radius: var(--radius); display: none;
+    }
+    .verify-result.ok  { display: inline-block; color: var(--px-green); background: var(--px-green-dim); border: 1px solid var(--px-border); }
+    .verify-result.err { display: inline-block; color: var(--red); background: var(--red-dim); border: 1px solid var(--red-border); }
+    .verify-result.unk { display: inline-block; color: var(--text-muted); background: var(--brown-dark); border: 1px solid rgba(200,146,42,0.15); }
+
+    /* ── LOADING / EMPTY ── */
+    .loading, .empty {
+      text-align: center; padding: 4rem 2rem;
+      color: var(--text-muted); font-family: var(--mono); font-size: 0.9rem;
+    }
+    .loading::after { content: ''; animation: dots 1.2s steps(3, end) infinite; }
+    @keyframes dots { 0%,20%{content:'.'} 40%{content:'..'} 60%,100%{content:'...'} }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid rgba(200,146,42,0.1);
+      padding: 2rem; text-align: center; font-size: 0.82rem; color: var(--text-muted);
+    }
+    footer a { color: var(--gold); text-decoration: none; }
+    footer a:hover { color: var(--gold-light); }
+
+    @media (max-width: 600px) {
+      .hero-actions { flex-direction: column; align-items: center; }
+      .verify-strip { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/" class="nav-brand">authenticcoder.com</a>
+    <div class="nav-links">
+      <a href="/#story">Story</a>
+      <a href="/#phoenix">Phoenix OS</a>
+      <a href="/glossary">Glossary</a>
+      <a href="https://github.com/jwl247" target="_blank" rel="noopener">GitHub</a>
+      <a href="/#access" class="nav-cta">Request Access →</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-eyebrow">Phoenix Peer Review</div>
+    <h1>Community <em>review</em> platform.</h1>
+    <p>Packages are submitted, reviewed by peers, and verified by hash — nothing is pushed, everything is opt-in.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="toggleSubmitPanel()">+ Submit Package</button>
+      <a class="btn-secondary" href="/glossary">← Back to Glossary</a>
+    </div>
+  </section>
+
+  <!-- Submit Panel -->
+  <div class="submit-panel" id="submit-panel">
+    <div class="submit-card">
+      <h3>Submit for Review</h3>
+      <div class="form-field">
+        <label>Package Name *</label>
+        <input type="text" id="sf-name" placeholder="e.g. phoenix-auth">
+      </div>
+      <div class="form-field">
+        <label>Description *</label>
+        <textarea id="sf-desc" placeholder="What does this package do?"></textarea>
+      </div>
+      <div class="form-field">
+        <label>SHA-256 Hex *</label>
+        <input type="text" id="sf-hex" placeholder="64-char hex hash of the package content" style="font-family:var(--mono);font-size:0.82rem;">
+      </div>
+      <div class="form-field">
+        <label>Author (optional)</label>
+        <input type="text" id="sf-author" placeholder="GitHub username or alias">
+      </div>
+      <div class="form-actions">
+        <span class="submit-status" id="submit-status"></span>
+        <button class="btn-primary" onclick="submitPackage()" style="font-size:0.88rem;padding:0.5rem 1.2rem;">Submit</button>
+        <button class="btn-secondary" onclick="toggleSubmitPanel()" style="font-size:0.88rem;padding:0.5rem 1.2rem;">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats bar -->
+  <div class="stats-bar" id="stats-bar">
+    <div class="stat-pill">Submissions: <strong id="stat-total">—</strong></div>
+    <div class="stat-pill">Approved: <strong id="stat-approved">—</strong></div>
+    <div class="stat-pill">Pending: <strong id="stat-pending">—</strong></div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs-wrap">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('all', this)">All</button>
+      <button class="tab-btn" onclick="switchTab('pending', this)">Pending</button>
+      <button class="tab-btn" onclick="switchTab('approved', this)">Approved</button>
+      <button class="tab-btn" onclick="switchTab('rejected', this)">Rejected</button>
+    </div>
+  </div>
+
+  <!-- Verify strip -->
+  <div class="verify-strip">
+    <input class="verify-input" id="verify-hex-input" type="text" placeholder="Paste hex to verify…" style="font-family:var(--mono);font-size:0.82rem;">
+    <button class="btn-secondary" onclick="verifyHex()" style="padding:0.5rem 1rem;font-size:0.88rem;">Verify</button>
+    <span class="verify-result" id="verify-result"></span>
+  </div>
+
+  <div id="review-grid"><div class="loading">Loading submissions</div></div>
+
+  <footer>
+    <p>authenticcoder.com &mdash; <a href="https://github.com/jwl247" target="_blank" rel="noopener">jwl247</a> &mdash; built on Phoenix OS</p>
+  </footer>
+
+  <script>
+    const WORKER = 'https://packages-worker.phoenix-jwl.workers.dev';
+    let allSubmissions = [];
+    let activeTab = 'all';
+
+    async function loadReview() {
+      try {
+        const res = await fetch(WORKER + '/review');
+        const data = await res.json();
+        allSubmissions = data.submissions || [];
+        updateStats();
+        renderSubmissions();
+      } catch (e) {
+        document.getElementById('review-grid').innerHTML =
+          '<div class="empty">Could not load submissions. Worker may be offline.</div>';
+      }
+    }
+
+    function updateStats() {
+      const total    = allSubmissions.length;
+      const approved = allSubmissions.filter(s => s.status === 'approved').length;
+      const pending  = allSubmissions.filter(s => !s.status || s.status === 'pending').length;
+      document.getElementById('stat-total').textContent    = total;
+      document.getElementById('stat-approved').textContent = approved;
+      document.getElementById('stat-pending').textContent  = pending;
+    }
+
+    function switchTab(tab, btn) {
+      activeTab = tab;
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderSubmissions();
+    }
+
+    function renderSubmissions() {
+      const grid = document.getElementById('review-grid');
+      let filtered = allSubmissions;
+      if (activeTab === 'pending')  filtered = allSubmissions.filter(s => !s.status || s.status === 'pending');
+      if (activeTab === 'approved') filtered = allSubmissions.filter(s => s.status === 'approved');
+      if (activeTab === 'rejected') filtered = allSubmissions.filter(s => s.status === 'rejected');
+
+      if (!filtered.length) {
+        grid.innerHTML = '<div class="empty">No submissions in this category yet.</div>';
+        return;
+      }
+
+      grid.innerHTML = filtered.map(sub => {
+        const statusClass = 'status-' + (sub.status || 'pending');
+        const statusLabel = sub.status || 'pending';
+        const approvals = sub.approvals || 0;
+        const rejections = sub.rejections || 0;
+        return `<div class="review-card" id="card-${esc(sub.hex || sub.id)}">
+          <div class="review-card-header">
+            <div class="review-title">${esc(sub.name || sub.package_name || 'Unnamed Package')}</div>
+            <span class="review-status ${statusClass}">${statusLabel}</span>
+          </div>
+          ${sub.description ? `<div class="review-desc">${esc(sub.description)}</div>` : ''}
+          <div class="review-meta">
+            ${sub.author ? `<span>by ${esc(sub.author)}</span>` : ''}
+            ${sub.submitted_at ? `<span>${new Date(sub.submitted_at).toLocaleDateString()}</span>` : ''}
+          </div>
+          <div class="review-hex">${esc(sub.hex || '')}</div>
+          <div class="vote-row">
+            <button class="vote-btn vote-approve" onclick="vote('${esc(sub.hex || sub.id)}', 'approve', this)">✓ Approve</button>
+            <button class="vote-btn vote-reject"  onclick="vote('${esc(sub.hex || sub.id)}', 'reject', this)">✕ Reject</button>
+            <span class="vote-tally">
+              <span>${approvals}</span> approve &nbsp;·&nbsp; <span>${rejections}</span> reject
+            </span>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    async function vote(hex, voteType, btn) {
+      btn.disabled = true;
+      btn.style.opacity = '0.6';
+      try {
+        const res = await fetch(WORKER + '/review/' + hex + '/vote', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ vote: voteType })
+        });
+        if (res.ok) {
+          // Reload to get fresh tally
+          await loadReview();
+        } else {
+          btn.disabled = false; btn.style.opacity = '1';
+        }
+      } catch (e) {
+        btn.disabled = false; btn.style.opacity = '1';
+      }
+    }
+
+    function toggleSubmitPanel() {
+      const panel = document.getElementById('submit-panel');
+      panel.classList.toggle('open');
+      if (!panel.classList.contains('open')) {
+        document.getElementById('submit-status').className = 'submit-status';
+        document.getElementById('submit-status').textContent = '';
+      }
+    }
+
+    async function submitPackage() {
+      const status = document.getElementById('submit-status');
+      const name   = document.getElementById('sf-name').value.trim();
+      const desc   = document.getElementById('sf-desc').value.trim();
+      const hex    = document.getElementById('sf-hex').value.trim();
+      const author = document.getElementById('sf-author').value.trim();
+
+      if (!name || !desc || !hex) {
+        status.className = 'submit-status err';
+        status.textContent = '✕ Name, description, and hex are required';
+        return;
+      }
+      if (!/^[0-9a-f]{64}$/i.test(hex)) {
+        status.className = 'submit-status err';
+        status.textContent = '✕ Hex must be a 64-char SHA-256 hash';
+        return;
+      }
+
+      status.className = 'submit-status';
+      status.textContent = 'Submitting…';
+      status.style.display = 'inline-block';
+
+      try {
+        const res = await fetch(WORKER + '/review', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, description: desc, hex, author: author || null })
+        });
+        if (res.ok) {
+          status.className = 'submit-status ok';
+          status.textContent = '✓ Submitted for review';
+          document.getElementById('sf-name').value = '';
+          document.getElementById('sf-desc').value = '';
+          document.getElementById('sf-hex').value = '';
+          document.getElementById('sf-author').value = '';
+          await loadReview();
+          setTimeout(() => toggleSubmitPanel(), 1200);
+        } else {
+          const err = await res.json().catch(() => ({}));
+          status.className = 'submit-status err';
+          status.textContent = '✕ ' + (err.error || res.status);
+        }
+      } catch (e) {
+        status.className = 'submit-status err';
+        status.textContent = '✕ Network error';
+      }
+    }
+
+    async function verifyHex() {
+      const hexVal = document.getElementById('verify-hex-input').value.trim();
+      const result = document.getElementById('verify-result');
+      if (!hexVal) return;
+      result.className = 'verify-result unk';
+      result.textContent = 'Checking…';
+      try {
+        const res = await fetch(WORKER + '/verify/' + encodeURIComponent(hexVal));
+        const data = await res.json();
+        if (data.verified) {
+          result.className = 'verify-result ok';
+          result.textContent = '✓ Verified — ' + (data.status || 'approved');
+        } else {
+          result.className = 'verify-result unk';
+          result.textContent = '? ' + (data.status || 'unknown');
+        }
+      } catch (e) {
+        result.className = 'verify-result err';
+        result.textContent = '✕ Lookup failed';
+      }
+    }
+
+    document.getElementById('verify-hex-input').addEventListener('keydown', e => {
+      if (e.key === 'Enter') verifyHex();
+    });
+
+    function esc(str) {
+      return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    loadReview();
+  </script>
+</body>
+</html>
