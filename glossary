@@ -50,25 +50,26 @@
       top: 0; 
     }
     tr:hover { background: #252525; }
+    .name-col { width: 25%; font-weight: 500; }
     #status { margin: 15px 0; font-style: italic; color: #aaa; }
   </style>
 </head>
 <body>
-  <h1>Phoenix Glossary <small style="color:#666;">(578 items)</small></h1>
+  <h1>Phoenix Glossary <small style="color:#666;">(~578 items)</small></h1>
   
   <button class="admin-btn" onclick="window.open('https://github.com/jwl247/Phoenix-Package_handler', '_blank')">
     🔧 Admin → GitHub Repo
   </button>
 
-  <input type="text" id="search" placeholder="Search by name, hex, description, or path..." onkeyup="filterTable()">
+  <input type="text" id="search" placeholder="Search by name, hex, or description..." onkeyup="filterTable()">
 
-  <div id="status">Loading 578 items from the worker...</div>
+  <div id="status">Loading glossary from worker...</div>
   
   <table id="glossaryTable">
     <thead>
       <tr>
+        <th class="name-col">Name</th>
         <th>Hex</th>
-        <th>Name</th>
         <th>Description</th>
         <th>State</th>
         <th>Intake Date</th>
@@ -85,11 +86,11 @@
       const status = document.getElementById("status");
       try {
         const res = await fetch(`${workerUrl}/glossary`);
-        if (!res.ok) throw new Error(`HTTP error ${res.status}`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
         const responseData = await res.json();
         
-        // Handle the actual format: {"glossary": [...], "count": 578}
+        // Handle both possible formats safely
         let items = responseData.glossary || (Array.isArray(responseData) ? responseData : []);
 
         const tbody = document.querySelector("#glossaryTable tbody");
@@ -103,8 +104,8 @@
         items.forEach(item => {
           const row = document.createElement("tr");
           row.innerHTML = `
-            <td style="font-family: monospace; font-size: 0.85em;">${item.hex || "—"}</td>
-            <td>${item.name || "—"}</td>
+            <td class="name-col">${item.name || "—"}</td>
+            <td style="font-family: monospace; font-size: 0.85em; word-break: break-all;">${item.hex || "—"}</td>
             <td>${item.description || "—"}</td>
             <td>${item.state || "—"}</td>
             <td>${item.intaked_at ? item.intaked_at.substring(0, 16) : "—"}</td>
@@ -116,7 +117,7 @@
         status.textContent = `✅ Loaded ${items.length} items successfully.`;
       } catch (e) {
         console.error(e);
-        status.innerHTML = `❌ Failed to load glossary.<br>Error: ${e.message}<br><br>Try refreshing or check browser console (F12).`;
+        status.innerHTML = `❌ Failed to load.<br>Error: ${e.message}<br><br>Refresh the page or check F12 Console.`;
       }
     }
 
@@ -128,7 +129,6 @@
       });
     }
 
-    // Load when page opens
     loadGlossary();
   </script>
 </body>
