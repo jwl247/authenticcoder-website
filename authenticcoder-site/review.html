@@ -7,44 +7,36 @@
   <style>
     body { font-family: system-ui, sans-serif; background: #0f0f0f; color: #ddd; margin: 0; padding: 20px; }
     h1 { color: #00ddff; }
-    .section { background: #1a1a1a; padding: 1.5rem; margin-bottom: 2rem; border-radius: 8px; }
-    button { background: #00ddff; color: #000; padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; }
+    .section { background: #1a1a1a; padding: 2rem; margin-bottom: 2rem; border-radius: 8px; }
+    .note { background: #332200; padding: 15px; border-radius: 6px; color: #ffcc66; }
   </style>
 </head>
 <body>
   <h1>Phoenix Review Platform</h1>
-  <p>Opt-in peer review • Nothing is pushed until approved</p>
-
-  <div class="section">
-    <h2>Feed (Approved Items)</h2>
-    <div id="feed">Loading...</div>
+  
+  <div class="note">
+    Opt-in peer review system • Nothing is pushed until approved
   </div>
 
   <div class="section">
-    <h2>Submissions Waiting for Review</h2>
-    <div id="submissions">Loading...</div>
+    <h2>Approved Feed</h2>
+    <div id="feed">Loading feed...</div>
   </div>
 
   <script>
     const workerUrl = "https://packages-worker.phoenix-jwl.workers.dev";
 
-    async function loadData() {
-      // Feed
+    async function loadFeed() {
       try {
-        const feedRes = await fetch(`${workerUrl}/feed`);
-        const feedData = await feedRes.json();
-        document.getElementById("feed").innerHTML = `<pre>${JSON.stringify(feedData, null, 2)}</pre>`;
-      } catch(e) { document.getElementById("feed").innerHTML = "Error loading feed"; }
-
-      // Submissions
-      try {
-        const subRes = await fetch(`${workerUrl}/submissions`);
-        const subData = await subRes.json();
-        document.getElementById("submissions").innerHTML = `<pre>${JSON.stringify(subData, null, 2)}</pre>`;
-      } catch(e) { document.getElementById("submissions").innerHTML = "Error loading submissions"; }
+        const res = await fetch(`${workerUrl}/feed`);
+        const data = await res.json();
+        document.getElementById("feed").innerHTML = `<pre style="background:#111; padding:15px;">${JSON.stringify(data, null, 2)}</pre>`;
+      } catch(e) {
+        document.getElementById("feed").innerHTML = "Failed to load feed.";
+      }
     }
 
-    loadData();
+    loadFeed();
   </script>
 </body>
 </html>
