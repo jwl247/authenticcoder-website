@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phoenix Review Platform</title>
+  <style>
+    body { font-family: system-ui, sans-serif; background: #0f0f0f; color: #ddd; margin: 0; padding: 20px; }
+    h1 { color: #00ddff; }
+    .section { background: #1a1a1a; padding: 2rem; margin-bottom: 2rem; border-radius: 8px; }
+    .note { background: #332200; padding: 15px; border-radius: 6px; color: #ffcc66; }
+  </style>
+</head>
+<body>
+  <h1>Phoenix Review Platform</h1>
+  
+  <div class="note">
+    Opt-in peer review system • Nothing is pushed until approved
+  </div>
+
+  <div class="section">
+    <h2>Approved Feed</h2>
+    <div id="feed">Loading feed...</div>
+  </div>
+
+  <script>
+    const workerUrl = "https://packages-worker.phoenix-jwl.workers.dev";
+
+    async function loadFeed() {
+      try {
+        const res = await fetch(`${workerUrl}/feed`);
+        const data = await res.json();
+        document.getElementById("feed").innerHTML = `<pre style="background:#111; padding:15px;">${JSON.stringify(data, null, 2)}</pre>`;
+      } catch(e) {
+        document.getElementById("feed").innerHTML = "Failed to load feed.";
+      }
+    }
+
+    loadFeed();
+  </script>
+</body>
+</html>
