@@ -6,52 +6,41 @@
   <title>Phoenix Package Handler - United Systems</title>
   <style>
     body { font-family: system-ui, sans-serif; background: #0f0f0f; color: #ddd; margin: 0; padding: 0; line-height: 1.6; }
-    header { background: #1a1a1a; padding: 2rem; text-align: center; }
-    h1 { color: #00ddff; margin: 0; }
-    .container { max-width: 1000px; margin: 2rem auto; padding: 0 1rem; }
-    .hero { text-align: center; margin-bottom: 3rem; }
-    button, a.button { background: #00ddff; color: #000; padding: 12px 24px; border: none; border-radius: 6px; font-size: 1.1rem; cursor: pointer; text-decoration: none; display: inline-block; margin: 10px; }
-    button:hover, a.button:hover { background: #00bbdd; }
-    .section { background: #1a1a1a; padding: 2rem; margin-bottom: 2rem; border-radius: 8px; }
-    ul { padding-left: 1.5rem; }
+    header { background: linear-gradient(#1a1a1a, #0f0f0f); padding: 3rem 1rem; text-align: center; }
+    h1 { color: #00ddff; margin: 0; font-size: 2.8rem; }
+    .tagline { color: #aaa; font-size: 1.3rem; }
+    .container { max-width: 1100px; margin: 2rem auto; padding: 0 1rem; }
+    .button { background: #00ddff; color: #000; padding: 14px 28px; border: none; border-radius: 8px; font-size: 1.2rem; cursor: pointer; text-decoration: none; display: inline-block; margin: 10px; }
+    .button:hover { background: #00bbdd; }
+    .section { background: #1a1a1a; padding: 2.5rem; margin-bottom: 2rem; border-radius: 10px; }
     footer { text-align: center; padding: 2rem; color: #666; }
   </style>
 </head>
 <body>
   <header>
     <h1>Phoenix Package Handler</h1>
-    <p>Universal intake • Automatic tracking • Opt-in peer-reviewed distribution</p>
+    <p class="tagline">Universal Intake • Automatic Tracking • Opt-in Peer Review</p>
   </header>
 
   <div class="container">
-    <div class="hero">
-      <h2>One pipeline to rule them all</h2>
-      <p>Download anything — script, package, config, binary — and Phoenix instantly registers it with a deterministic hex ID, sidecar metadata, clonepool versioning, and custody log. No more hunting through npm, pip, apt, cargo, etc.</p>
-      <a href="glossary.html" class="button">Browse Glossary</a>
-      <a href="review.html" class="button">Review Platform</a>
+    <div class="section">
+      <h2>Welcome to Phoenix</h2>
+      <p>Any file you download or create gets automatically registered with a deterministic hex ID, sidecar metadata, versioned clonepool entry, and full custody log.</p>
+      <p>No more hunting through different package managers.</p>
+      
+      <a href="glossary.html" class="button">📋 Browse Glossary</a>
+      <a href="review.html" class="button">🔍 Review Platform</a>
     </div>
 
     <div class="section">
-      <h2>Why Phoenix?</h2>
-      <ul>
-        <li>Intercepts every file that enters your system</li>
-        <li>Creates consistent hex identities + sidecars</li>
-        <li>Tracks custody in SQLite + Cloudflare D1</li>
-        <li>Opt-in peer review before anything is widely distributed</li>
-        <li>Works across Linux, macOS, Windows</li>
-      </ul>
-    </div>
-
-    <div class="section">
-      <h2>Quick Start</h2>
-      <p>Run the installer, then use <code>intake ./mytool.sh</code> or <code>intake backend nodejs</code>. Everything becomes instantly trackable.</p>
-      <p>See the full vision in <a href="https://github.com/jwl247/Phoenix-Package_handler" target="_blank">the repo</a>.</p>
+      <h2>Current Status</h2>
+      <p>Backend is live. The glossary currently contains test data with many unnamed entries. A full clean re-intake will be done soon once auto-intake is active.</p>
     </div>
   </div>
 
   <footer>
     Phoenix — Part of United Systems (USys)<br>
-    GPL v3 • Built with determination and a lot of AI help
+    GPL v3 • Work in Progress
   </footer>
 </body>
 </html>
