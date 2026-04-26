@@ -5,66 +5,281 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Phoenix Review Platform</title>
   <style>
-    body { font-family: system-ui, sans-serif; background: #0f0f0f; color: #ddd; margin: 0; padding: 20px; }
-    h1 { color: #00ddff; }
-    h2 { color: #00bbdd; }
-    .nav-btn { background: #1a1a1a; color: #00ddff; padding: 10px 20px; border: 1px solid #00ddff; border-radius: 6px; cursor: pointer; font-size: 1rem; margin: 0 5px 10px 0; text-decoration: none; display: inline-block; }
+    * { box-sizing: border-box; }
+    body { font-family: system-ui, sans-serif; background: #0f0f0f; color: #ddd; margin: 0; padding: 20px; max-width: 900px; margin: 0 auto; padding: 20px; }
+    h1 { color: #00ddff; margin-bottom: 5px; }
+    h2 { color: #00bbdd; margin-top: 0; }
+    h3 { color: #00ddff; margin-bottom: 10px; }
+    .subtitle { color: #888; margin-bottom: 20px; font-size: 0.95rem; }
+    .nav-btn { background: #1a1a1a; color: #00ddff; padding: 10px 20px; border: 1px solid #00ddff; border-radius: 6px; cursor: pointer; font-size: 1rem; margin: 0 5px 15px 0; text-decoration: none; display: inline-block; }
     .nav-btn:hover { background: #00ddff; color: #000; }
-    .section { background: #1a1a1a; padding: 2rem; margin-bottom: 2rem; border-radius: 8px; }
-    .note { background: #332200; padding: 15px; border-radius: 6px; color: #ffcc66; margin-bottom: 20px; }
-    .info-box { background: #0d1a2a; border: 1px solid #00ddff33; padding: 15px; border-radius: 6px; margin-bottom: 15px; color: #aad4ee; }
-    pre { background: #111; padding: 15px; overflow: auto; white-space: pre-wrap; border-radius: 6px; }
-    #feed-status { margin: 10px 0; font-style: italic; color: #aaa; }
+    .note { background: #332200; padding: 12px 15px; border-radius: 6px; color: #ffcc66; margin-bottom: 20px; font-size: 0.9rem; }
+    .tabs { display: flex; gap: 5px; margin-bottom: 0; flex-wrap: wrap; }
+    .tab-btn { background: #1a1a1a; color: #aaa; padding: 10px 18px; border: 1px solid #333; border-bottom: none; border-radius: 6px 6px 0 0; cursor: pointer; font-size: 0.95rem; }
+    .tab-btn.active { background: #1e2a35; color: #00ddff; border-color: #00ddff44; }
+    .tab-btn:hover:not(.active) { background: #222; color: #ddd; }
+    .tab-panel { display: none; background: #1a1a1a; border: 1px solid #00ddff22; border-radius: 0 6px 6px 6px; padding: 25px; margin-bottom: 20px; }
+    .tab-panel.active { display: block; }
+    label { display: block; margin-bottom: 5px; color: #aaa; font-size: 0.9rem; }
+    input[type=text], input[type=number], textarea, select { width: 100%; padding: 10px 12px; background: #111; color: #ddd; border: 1px solid #444; border-radius: 6px; font-size: 1rem; font-family: inherit; margin-bottom: 15px; }
+    input[type=text]:focus, textarea:focus, select:focus { outline: none; border-color: #00ddff66; }
+    textarea { resize: vertical; min-height: 100px; }
+    .btn { padding: 10px 22px; border: none; border-radius: 6px; cursor: pointer; font-size: 1rem; font-family: inherit; }
+    .btn-primary { background: #00ddff; color: #000; font-weight: 600; }
+    .btn-primary:hover { background: #00bbdd; }
+    .btn-primary:disabled { background: #336; color: #666; cursor: not-allowed; }
+    .btn-approve { background: #004d00; color: #66ff66; border: 1px solid #006600; }
+    .btn-approve:hover { background: #006600; }
+    .btn-reject { background: #4d0000; color: #ff6666; border: 1px solid #660000; }
+    .btn-reject:hover { background: #660000; }
+    .btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 5px; }
+    .result-box { margin-top: 15px; padding: 15px; background: #111; border-radius: 6px; border-left: 3px solid #00ddff; font-size: 0.9rem; }
+    .result-box.success { border-color: #00cc44; }
+    .result-box.error { border-color: #cc3300; }
+    .result-box pre { margin: 0; white-space: pre-wrap; word-break: break-word; font-size: 0.85rem; color: #bbb; }
+    .feed-grid { display: grid; gap: 12px; }
+    .feed-card { background: #111; border: 1px solid #222; border-radius: 8px; padding: 15px; }
+    .feed-card:hover { border-color: #00ddff33; }
+    .feed-card .hex { font-family: monospace; color: #00ddff; font-size: 0.9rem; word-break: break-all; }
+    .feed-card .meta { color: #888; font-size: 0.8rem; margin-top: 6px; }
+    .feed-card .name { font-size: 1.05rem; font-weight: 600; color: #ddd; margin-bottom: 4px; }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 0.75rem; margin-left: 6px; }
+    .badge-approved { background: #003300; color: #66ff66; border: 1px solid #006600; }
+    .badge-pending { background: #332200; color: #ffaa00; border: 1px solid #664400; }
+    .status-msg { margin-top: 10px; font-style: italic; color: #888; font-size: 0.9rem; }
+    .vote-display { display: flex; gap: 15px; margin-top: 10px; }
+    .vote-count { text-align: center; padding: 10px 20px; background: #111; border-radius: 6px; }
+    .vote-count .num { font-size: 1.8rem; font-weight: 700; }
+    .vote-count .lbl { font-size: 0.75rem; color: #888; }
+    .yes-color { color: #66ff66; }
+    .no-color { color: #ff6666; }
+    .verify-result { margin-top: 15px; }
+    .verify-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #222; font-size: 0.9rem; }
+    .verify-row:last-child { border-bottom: none; }
+    .verify-key { color: #888; }
+    .verify-val { color: #ddd; font-family: monospace; word-break: break-all; text-align: right; max-width: 70%; }
   </style>
 </head>
 <body>
-  <h1>Phoenix Review Platform</h1>
+  <h1>&#128269; Phoenix Review Platform</h1>
+  <p class="subtitle">Opt-in peer review &bull; Community-driven &bull; Nothing promoted until approved</p>
 
   <a href="index.html" class="nav-btn">&#8592; Back to Home</a>
   <a href="glossary.html" class="nav-btn">&#128203; Browse Glossary</a>
 
-  <div class="note">
-    Opt-in peer review system &#8226; Nothing is pushed until approved
+  <div class="note">&#9888; Peer review is opt-in. Reviewers vote approve or reject. Packages need majority approval before entering the promoted feed.</div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('feed')">&#128240; Approved Feed</button>
+    <button class="tab-btn" onclick="showTab('submit')">&#43; Submit for Review</button>
+    <button class="tab-btn" onclick="showTab('vote')">&#128077; Vote on Review</button>
+    <button class="tab-btn" onclick="showTab('verify')">&#128274; Verify Package</button>
   </div>
 
-  <div class="section">
-    <h2>About the Review Platform</h2>
-    <div class="info-box">
-      The Phoenix peer review system lets community members review and vote on packages before they are promoted.
-      Submit a hex ID to start a review, vote on existing reviews, or browse the approved feed below.
-    </div>
-    <div class="info-box">
-      <strong>Note:</strong> Full submit/vote UI coming soon. The feed below shows currently approved packages from the backend.
-    </div>
-  </div>
-
-  <div class="section">
+  <!-- FEED TAB -->
+  <div id="tab-feed" class="tab-panel active">
     <h2>Approved Feed</h2>
-    <div id="feed-status">Loading feed...</div>
-    <div id="feed"></div>
+    <p style="color:#888;font-size:0.9rem;">Packages that have passed peer review and been promoted.</p>
+    <div id="feed-status" class="status-msg">Loading feed...</div>
+    <div id="feed-grid" class="feed-grid"></div>
+  </div>
+
+  <!-- SUBMIT TAB -->
+  <div id="tab-submit" class="tab-panel">
+    <h2>Submit Package for Review</h2>
+    <p style="color:#888;font-size:0.9rem;">Enter the hex ID of a package you want the community to review.</p>
+    <label for="submit-hex">Package Hex ID</label>
+    <input type="text" id="submit-hex" placeholder="e.g. a3f9c2d1b4e8..." />
+    <label for="submit-notes">Notes (optional)</label>
+    <textarea id="submit-notes" placeholder="Why should this package be reviewed? Any context or flags?"></textarea>
+    <button class="btn btn-primary" onclick="submitReview()">Submit for Review</button>
+    <div id="submit-result"></div>
+  </div>
+
+  <!-- VOTE TAB -->
+  <div id="tab-vote" class="tab-panel">
+    <h2>Vote on a Review</h2>
+    <p style="color:#888;font-size:0.9rem;">Enter a hex ID to load its current review status and cast your vote.</p>
+    <label for="vote-hex">Package Hex ID</label>
+    <input type="text" id="vote-hex" placeholder="e.g. a3f9c2d1b4e8..." />
+    <button class="btn btn-primary" onclick="loadReview()">Load Review</button>
+    <div id="vote-info"></div>
+    <div id="vote-result"></div>
+  </div>
+
+  <!-- VERIFY TAB -->
+  <div id="tab-verify" class="tab-panel">
+    <h2>Verify Package</h2>
+    <p style="color:#888;font-size:0.9rem;">Look up a package by hex ID to check its metadata, custody chain, and approval status.</p>
+    <label for="verify-hex">Package Hex ID</label>
+    <input type="text" id="verify-hex" placeholder="e.g. a3f9c2d1b4e8..." />
+    <button class="btn btn-primary" onclick="verifyPackage()">Verify</button>
+    <div id="verify-result" class="verify-result"></div>
   </div>
 
   <script>
-    const workerUrl = "https://packages-worker.phoenix-jwl.workers.dev";
+    const W = "https://packages-worker.phoenix-jwl.workers.dev";
 
+    function showTab(name) {
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('tab-' + name).classList.add('active');
+      event.target.classList.add('active');
+    }
+
+    // ---- FEED ----
     async function loadFeed() {
-      const status = document.getElementById("feed-status");
+      const status = document.getElementById('feed-status');
+      const grid = document.getElementById('feed-grid');
       try {
-        const res = await fetch(workerUrl + "/feed");
-        if (!res.ok) throw new Error("HTTP " + res.status);
+        const res = await fetch(W + '/feed');
+        if (!res.ok) throw new Error('HTTP ' + res.status);
         const data = await res.json();
         const items = Array.isArray(data) ? data : (data.feed || data.items || []);
         if (items.length === 0) {
-          status.textContent = "No approved packages yet.";
+          status.textContent = 'No approved packages in the feed yet.';
         } else {
-          status.textContent = "Loaded " + items.length + " approved package(s).";
-          document.getElementById("feed").innerHTML =
-            "<pre>" + JSON.stringify(items, null, 2) + "<\/pre>";
+          status.textContent = items.length + ' approved package(s) in the feed.';
+          grid.innerHTML = items.map(pkg => {
+            const name = pkg.name || pkg.label || 'Unnamed Package';
+            const hex = pkg.hex || pkg.id || '';
+            const size = pkg.size ? formatSize(pkg.size) : '';
+            const date = pkg.intake_date || pkg.date || '';
+            return `<div class="feed-card">
+              <div class="name">${escHtml(name)} <span class="badge badge-approved">&#10003; Approved</span></div>
+              <div class="hex">${escHtml(hex)}</div>
+              <div class="meta">${size ? 'Size: ' + size + ' &bull; ' : ''}${date ? 'Intake: ' + date : ''}</div>
+            </div>`;
+          }).join('');
         }
       } catch(e) {
-        status.innerHTML = "Failed to load feed. Error: " + e.message;
-        console.error(e);
+        status.innerHTML = 'Failed to load feed: ' + e.message;
       }
+    }
+
+    // ---- SUBMIT ----
+    async function submitReview() {
+      const hex = document.getElementById('submit-hex').value.trim();
+      const notes = document.getElementById('submit-notes').value.trim();
+      const result = document.getElementById('submit-result');
+      if (!hex) { showResult(result, 'error', 'Please enter a hex ID.'); return; }
+      showResult(result, '', 'Submitting...');
+      try {
+        const res = await fetch(W + '/review', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ hex, notes })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          showResult(result, 'success', '&#10003; Submitted for review! The community can now vote on hex: ' + hex);
+          document.getElementById('submit-hex').value = '';
+          document.getElementById('submit-notes').value = '';
+        } else {
+          showResult(result, 'error', 'Error: ' + (data.error || data.message || JSON.stringify(data)));
+        }
+      } catch(e) {
+        showResult(result, 'error', 'Failed: ' + e.message);
+      }
+    }
+
+    // ---- VOTE ----
+    async function loadReview() {
+      const hex = document.getElementById('vote-hex').value.trim();
+      const info = document.getElementById('vote-info');
+      const result = document.getElementById('vote-result');
+      if (!hex) { showResult(info, 'error', 'Please enter a hex ID.'); return; }
+      info.innerHTML = '<div class="status-msg">Loading review data...</div>';
+      result.innerHTML = '';
+      try {
+        const res = await fetch(W + '/review/' + encodeURIComponent(hex));
+        if (res.status === 404) { info.innerHTML = '<div class="result-box error">No review found for this hex ID. Submit it first.</div>'; return; }
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+        const yes = data.votes_yes || data.yes || 0;
+        const no = data.votes_no || data.no || 0;
+        const status = data.status || data.state || 'pending';
+        info.innerHTML = `<div class="result-box">
+          <strong>Review: ${escHtml(hex.slice(0,16))}...</strong>
+          <div class="vote-display">
+            <div class="vote-count"><div class="num yes-color">${yes}</div><div class="lbl">Approve</div></div>
+            <div class="vote-count"><div class="num no-color">${no}</div><div class="lbl">Reject</div></div>
+          </div>
+          <div style="margin-top:10px;">Status: <span class="badge ${status==='approved'?'badge-approved':'badge-pending'}">${status}</span></div>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-approve" onclick="castVote('${escHtml(hex)}', 'approve')">&#128077; Vote Approve</button>
+          <button class="btn btn-reject" onclick="castVote('${escHtml(hex)}', 'reject')">&#128078; Vote Reject</button>
+        </div>`;
+      } catch(e) {
+        info.innerHTML = '<div class="result-box error">Failed to load review: ' + e.message + '</div>';
+      }
+    }
+
+    async function castVote(hex, vote) {
+      const result = document.getElementById('vote-result');
+      showResult(result, '', 'Casting vote...');
+      try {
+        const res = await fetch(W + '/vote', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ hex, vote })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          showResult(result, 'success', '&#10003; Vote cast: ' + vote + ' for ' + hex.slice(0,16) + '...');
+          setTimeout(() => loadReview(), 1000);
+        } else {
+          showResult(result, 'error', 'Error: ' + (data.error || data.message || JSON.stringify(data)));
+        }
+      } catch(e) {
+        showResult(result, 'error', 'Failed: ' + e.message);
+      }
+    }
+
+    // ---- VERIFY ----
+    async function verifyPackage() {
+      const hex = document.getElementById('verify-hex').value.trim();
+      const result = document.getElementById('verify-result');
+      if (!hex) { result.innerHTML = '<div class="result-box error">Please enter a hex ID.</div>'; return; }
+      result.innerHTML = '<div class="status-msg">Verifying...</div>';
+      try {
+        const res = await fetch(W + '/verify/' + encodeURIComponent(hex));
+        if (res.status === 404) { result.innerHTML = '<div class="result-box error">Package not found in the registry.</div>'; return; }
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+        const pkg = data.package || data;
+        const rows = [
+          ['Hex ID', pkg.hex || hex],
+          ['Name / Label', pkg.name || pkg.label || 'N/A'],
+          ['State', pkg.state || 'N/A'],
+          ['Size', pkg.size ? formatSize(pkg.size) : 'N/A'],
+          ['Intake Date', pkg.intake_date || pkg.date || 'N/A'],
+          ['Description', pkg.description || 'N/A'],
+          ['Review Status', pkg.review_status || pkg.review || 'N/A'],
+        ].filter(r => r[1] !== 'N/A' && r[1]);
+        result.innerHTML = `<div class="result-box success">
+          <strong>&#128274; Package Verified</strong>
+          ${rows.map(r => `<div class="verify-row"><span class="verify-key">${r[0]}</span><span class="verify-val">${escHtml(String(r[1]))}</span></div>`).join('')}
+        </div>`;
+      } catch(e) {
+        result.innerHTML = '<div class="result-box error">Verification failed: ' + e.message + '</div>';
+      }
+    }
+
+    // ---- UTILS ----
+    function showResult(el, type, msg) {
+      el.innerHTML = `<div class="result-box ${type}">${msg}</div>`;
+    }
+
+    function escHtml(str) {
+      return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function formatSize(bytes) {
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1024*1024) return (bytes/1024).toFixed(1) + ' KB';
+      return (bytes/(1024*1024)).toFixed(1) + ' MB';
     }
 
     loadFeed();
