@@ -90,8 +90,19 @@
     <p style="color:#888;font-size:0.9rem;">Enter the hex ID of a package you want the community to review.</p>
     <label for="submit-hex">Package Hex ID</label>
     <input type="text" id="submit-hex" placeholder="e.g. a3f9c2d1b4e8..." />
-    <label for="submit-notes">Notes (optional)</label>
-    <textarea id="submit-notes" placeholder="Why should this package be reviewed? Any context or flags?"></textarea>
+    <label for="submit-name">Package Name *</label>
+    <input type="text" id="submit-name" placeholder="e.g. my-package" />
+    <label for="submit-description">Description</label>
+    <textarea id="submit-description" placeholder="What does this package do?"></textarea>
+    <label for="submit-category">Category</label>
+    <input type="text" id="submit-category" placeholder="e.g. utility, security, network" />
+    <label for="submit-platform">Platform</label>
+    <input type="text" id="submit-platform" placeholder="e.g. linux, windows, cross-platform" />
+    <label for="submit-submitter">Your Name / Handle</label>
+    <input type="text" id="submit-submitter" placeholder="e.g. jwl247" />
+    <label for="submit-artifact-url">Artifact URL (optional)</label>
+    <input type="text" id="submit-artifact-url" placeholder="https://..." />
+    <label for="submit-notes-info" style="color:#888;font-size:0.85rem;">(Notes can be added after submission via the review queue)</label>
     <button class="btn btn-primary" onclick="submitReview()">Submit for Review</button>
     <div id="submit-result"></div>
   </div>
@@ -160,26 +171,33 @@
     // ---- SUBMIT ----
     async function submitReview() {
       const hex = document.getElementById('submit-hex').value.trim();
-      const notes = document.getElementById('submit-notes').value.trim();
+      const name = document.getElementById('submit-name').value.trim();
+      const description = document.getElementById('submit-description').value.trim();
+      const category = document.getElementById('submit-category').value.trim();
+      const platform = document.getElementById('submit-platform').value.trim();
+      const submitter = document.getElementById('submit-submitter').value.trim();
+      const artifact_url = document.getElementById('submit-artifact-url').value.trim();
       const result = document.getElementById('submit-result');
-      if (!hex) { showResult(result, 'error', 'Please enter a hex ID.'); return; }
-      showResult(result, '', 'Submitting...');
+      if (!hex) { showResult(result, 'error', '&#10007; Hex ID is required'); return; }
+      if (!name) { showResult(result, 'error', '&#10007; Package name is required'); return; }
       try {
         const res = await fetch(W + '/review', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ hex, notes })
+          body: JSON.stringify({ hex, name, description, category, platform, submitter, artifact_url })
         });
         const data = await res.json();
         if (res.ok) {
-          showResult(result, 'success', '&#10003; Submitted for review! The community can now vote on hex: ' + hex);
+          showResult(result, 'success', '&#10003; Submitted for review! The community will evaluate this package.');
           document.getElementById('submit-hex').value = '';
-          document.getElementById('submit-notes').value = '';
+          document.getElementById('submit-name').value = '';
+          document.getElementById('submit-description').value = '';
+          document.getElementById('submit-artifact-url').value = '';
         } else {
-          showResult(result, 'error', 'Error: ' + (data.error || data.message || JSON.stringify(data)));
+          showResult(result, 'error', '&#10007; ' + (data.error || 'Submit failed'));
         }
       } catch(e) {
-        showResult(result, 'error', 'Failed: ' + e.message);
+        showResult(result, 'error', '&#10007; Network error: ' + e.message);
       }
     }
 
@@ -220,10 +238,10 @@
       const result = document.getElementById('vote-result');
       showResult(result, '', 'Casting vote...');
       try {
-        const res = await fetch(W + '/vote', {
+        const res = await fetch(W + '/review/' + hex + '/vote', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ hex, vote })
+          body: JSON.stringify({ vote })
         });
         const data = await res.json();
         if (res.ok) {
