@@ -3,44 +3,353 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Phoenix Package Handler - United Systems</title>
+  <title>Phoenix Package Handler — United Systems</title>
   <style>
-    body { font-family: system-ui, sans-serif; background: #0f0f0f; color: #ddd; margin: 0; padding: 0; line-height: 1.6; }
-    header { background: linear-gradient(#1a1a1a, #0f0f0f); padding: 3rem 1rem; text-align: center; }
-    h1 { color: #00ddff; margin: 0; font-size: 2.8rem; }
-    .tagline { color: #aaa; font-size: 1.3rem; }
-    .container { max-width: 1100px; margin: 2rem auto; padding: 0 1rem; }
-    .button { background: #00ddff; color: #000; padding: 14px 28px; border: none; border-radius: 8px; font-size: 1.2rem; cursor: pointer; text-decoration: none; display: inline-block; margin: 10px; }
-    .button:hover { background: #00bbdd; }
-    .section { background: #1a1a1a; padding: 2.5rem; margin-bottom: 2rem; border-radius: 10px; }
-    footer { text-align: center; padding: 2rem; color: #666; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --surface2: #1c2128;
+      --border: #30363d;
+      --accent: #00ddff;
+      --accent2: #f78166;
+      --text: #e6edf3;
+      --muted: #8b949e;
+      --green: #56d364;
+      --yellow: #e3b341;
+    }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: linear-gradient(160deg, #0d1117 0%, #161b22 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 3.5rem 1.5rem 2.5rem;
+      text-align: center;
+    }
+    .logo-line {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .logo-line .icon { font-size: 2.2rem; }
+    h1 {
+      font-size: 2.6rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: -0.5px;
+    }
+    .tagline {
+      color: var(--muted);
+      font-size: 1.05rem;
+      margin-top: 8px;
+    }
+    .badge-row {
+      margin-top: 16px;
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .badge {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: .78rem;
+      color: var(--muted);
+    }
+    .badge.green { border-color: #2ea04333; color: var(--green); background: #0d1f0d; }
+    .badge.blue  { border-color: #00ddff33; color: var(--accent); background: #0d1a1f; }
+
+    /* ── MAIN LAYOUT ── */
+    .container { max-width: 1050px; margin: 0 auto; padding: 2.5rem 1.5rem; }
+
+    /* ── SECTION CARDS ── */
+    .section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    .section h2 {
+      font-size: 1.15rem;
+      color: var(--accent);
+      margin-bottom: .75rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section p {
+      color: var(--muted);
+      font-size: .93rem;
+      margin-bottom: .75rem;
+    }
+    .section p:last-child { margin-bottom: 0; }
+
+    /* ── PAGE NAV CARDS ── */
+    .page-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-top: 1rem;
+    }
+    @media (max-width: 600px) { .page-grid { grid-template-columns: 1fr; } }
+
+    .page-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5rem;
+      text-decoration: none;
+      color: var(--text);
+      display: block;
+      transition: border-color .15s, background .15s;
+    }
+    .page-card:hover {
+      border-color: var(--accent);
+      background: #161b22;
+    }
+    .page-card .card-icon { font-size: 1.6rem; margin-bottom: 8px; }
+    .page-card h3 { font-size: 1rem; color: var(--accent); margin-bottom: 4px; }
+    .page-card p { color: var(--muted); font-size: .85rem; margin: 0; }
+    .page-card .note {
+      margin-top: 10px;
+      font-size: .78rem;
+      color: var(--yellow);
+      background: #1f1a00;
+      border: 1px solid #3a2e00;
+      border-radius: 6px;
+      padding: 6px 10px;
+    }
+
+    /* ── PIPELINE ── */
+    .pipeline {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      flex-wrap: wrap;
+      margin: 1rem 0 .5rem;
+    }
+    .pipeline-step {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 6px 14px;
+      font-size: .82rem;
+      color: var(--text);
+      white-space: nowrap;
+    }
+    .pipeline-arrow {
+      color: var(--muted);
+      font-size: 1rem;
+      padding: 0 6px;
+    }
+
+    /* ── STATUS GRID ── */
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    @media (max-width: 600px) { .status-grid { grid-template-columns: 1fr; } }
+    .status-item {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+    }
+    .status-item .label { font-size: .78rem; color: var(--muted); margin-bottom: 4px; }
+    .status-item .value { font-size: .95rem; font-weight: 600; color: var(--green); }
+
+    /* ── WORKER ENDPOINTS ── */
+    .endpoint-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: .75rem;
+    }
+    .endpoint {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: .82rem;
+      font-family: monospace;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 6px 12px;
+    }
+    .method {
+      font-weight: 700;
+      font-size: .72rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      min-width: 42px;
+      text-align: center;
+    }
+    .method.get  { background: #0d2a1f; color: var(--green); border: 1px solid #2ea04355; }
+    .method.post { background: #1a1a00; color: var(--yellow); border: 1px solid #e3b34155; }
+    .method.put  { background: #0d1a2a; color: var(--accent); border: 1px solid #00ddff44; }
+    .method.del  { background: #2a0d0d; color: #f85149; border: 1px solid #f8514944; }
+    .endpoint .path { color: var(--text); }
+    .endpoint .desc { color: var(--muted); margin-left: auto; font-family: 'Segoe UI', sans-serif; }
+
+    /* ── INSTALL ── */
+    pre {
+      background: #090d12;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      overflow-x: auto;
+      font-size: .85rem;
+      color: #7ee787;
+      margin-top: .75rem;
+      line-height: 1.7;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: var(--muted);
+      font-size: .82rem;
+      border-top: 1px solid var(--border);
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
-  <header>
+
+<header>
+  <div class="logo-line">
+    <span class="icon">&#9654;</span>
     <h1>Phoenix Package Handler</h1>
-    <p class="tagline">Universal Intake • Automatic Tracking • Opt-in Peer Review</p>
-  </header>
+  </div>
+  <p class="tagline">Universal Intake &bull; Automatic Tracking &bull; Opt-In Peer Review</p>
+  <p class="tagline" style="font-size:.85rem;margin-top:4px">UnitedSys &mdash; United Systems &nbsp;&bull;&nbsp; GPL v3 &nbsp;&bull;&nbsp; Part of Phoenix DevOps OS</p>
+  <div class="badge-row">
+    <span class="badge green">&#x25CF; Backend Live</span>
+    <span class="badge blue">packages-worker v3.4.0</span>
+    <span class="badge">phoenix_dev_db &mdash; D1</span>
+    <span class="badge">42 tables</span>
+  </div>
+</header>
 
-  <div class="container">
-    <div class="section">
-      <h2>Welcome to Phoenix</h2>
-      <p>Any file you download or create gets automatically registered with a deterministic hex ID, sidecar metadata, versioned clonepool entry, and full custody log.</p>
-      <p>No more hunting through different package managers.</p>
-      
-      <a href="glossary.html" class="button">📋 Browse Glossary</a>
-      <a href="review.html" class="button">🔍 Review Platform</a>
-    </div>
+<div class="container">
 
-    <div class="section">
-      <h2>Current Status</h2>
-      <p>Backend is live. The glossary currently contains test data with many unnamed entries. A full clean re-intake will be done soon once auto-intake is active.</p>
+  <!-- WHAT IT IS -->
+  <div class="section">
+    <h2>&#128230; What This Is</h2>
+    <p>The Phoenix Package Handler is the universal intake and catalog system for the Phoenix DevOps OS. It intercepts, registers, and tracks every file, package, config, and dependency that enters the system &mdash; regardless of origin or platform.</p>
+    <p><strong style="color:var(--text)">One pipeline. Every platform. Everything tracked.</strong></p>
+    <div class="pipeline">
+      <span class="pipeline-step">file / package / config</span>
+      <span class="pipeline-arrow">&#8594;</span>
+      <span class="pipeline-step">intake.sh</span>
+      <span class="pipeline-arrow">&#8594;</span>
+      <span class="pipeline-step">hex identity</span>
+      <span class="pipeline-arrow">&#8594;</span>
+      <span class="pipeline-step">sidecar + clonepool</span>
+      <span class="pipeline-arrow">&#8594;</span>
+      <span class="pipeline-step">custody log</span>
+      <span class="pipeline-arrow">&#8594;</span>
+      <span class="pipeline-step">D1 via packages-worker</span>
     </div>
   </div>
 
-  <footer>
-    Phoenix — Part of United Systems (USys)<br>
-    GPL v3 • Work in Progress
-  </footer>
+  <!-- PAGES -->
+  <div class="section">
+    <h2>&#128203; Platform Pages</h2>
+    <p>The platform UI lives on separate pages. The interactive buttons are still being wired up &mdash; both pages load and display data from the live worker now.</p>
+    <div class="page-grid">
+      <a href="glossary.html" class="page-card">
+        <div class="card-icon">&#128218;</div>
+        <h3>Package Glossary</h3>
+        <p>Browse and search the live catalog of every file, package, config, and dependency tracked by the system. Indexed by hex identity, searchable by name or category.</p>
+        <div class="note">&#9432; Full interactive editing coming soon &mdash; read + search works now</div>
+      </a>
+      <a href="review.html" class="page-card">
+        <div class="card-icon">&#128269;</div>
+        <h3>Peer Review Platform</h3>
+        <p>Submit artifacts for community review, vote approve / reject / abstain, and browse the opt-in availability feed. Verification by hex hash.</p>
+        <div class="note">&#9432; Submit + vote UI in progress &mdash; feed + verify work now</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- STATUS -->
+  <div class="section">
+    <h2>&#9889; Current Status</h2>
+    <p>Backend is live and operational. Glossary contains test data &mdash; a full clean re-intake will run once auto-intake is active.</p>
+    <div class="status-grid">
+      <div class="status-item">
+        <div class="label">Worker</div>
+        <div class="value">&#x25CF; Live</div>
+      </div>
+      <div class="status-item">
+        <div class="label">D1 Database</div>
+        <div class="value">&#x25CF; Connected</div>
+      </div>
+      <div class="status-item">
+        <div class="label">Peer Review</div>
+        <div class="value" style="color:var(--yellow)">&#x25D4; In Progress</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- API -->
+  <div class="section">
+    <h2>&#128268; packages-worker API</h2>
+    <p>Cloudflare Worker &mdash; <code style="color:var(--accent);font-size:.82rem">packages-worker.phoenix-jwl.workers.dev</code></p>
+    <div class="endpoint-list">
+      <div class="endpoint"><span class="method get">GET</span><span class="path">/health</span><span class="desc">worker status + DB table count</span></div>
+      <div class="endpoint"><span class="method get">GET</span><span class="path">/clonepool</span><span class="desc">list all files in clonepool</span></div>
+      <div class="endpoint"><span class="method get">GET</span><span class="path">/glossary</span><span class="desc">browse package glossary</span></div>
+      <div class="endpoint"><span class="method get">GET</span><span class="path">/glossary/:id</span><span class="desc">fetch single entry by hex or name</span></div>
+      <div class="endpoint"><span class="method post">POST</span><span class="path">/glossary</span><span class="desc">add / upsert entry (auth)</span></div>
+      <div class="endpoint"><span class="method put">PUT</span><span class="path">/glossary/:id</span><span class="desc">update entry (auth)</span></div>
+      <div class="endpoint"><span class="method del">DEL</span><span class="path">/glossary/:id</span><span class="desc">remove entry (auth)</span></div>
+      <div class="endpoint"><span class="method get">GET</span><span class="path">/review</span><span class="desc">list submissions</span></div>
+      <div class="endpoint"><span class="method post">POST</span><span class="path">/review</span><span class="desc">submit artifact (auth)</span></div>
+      <div class="endpoint"><span class="method post">POST</span><span class="path">/review/:hex/vote</span><span class="desc">cast vote (auth)</span></div>
+      <div class="endpoint"><span class="method get">GET</span><span class="path">/verify/:hex</span><span class="desc">verify artifact by hash</span></div>
+      <div class="endpoint"><span class="method get">GET</span><span class="path">/feed</span><span class="desc">opt-in availability feed</span></div>
+      <div class="endpoint"><span class="method get">GET</span><span class="path">/search?q=</span><span class="desc">cross-search clonepool + glossary</span></div>
+    </div>
+  </div>
+
+  <!-- INSTALL -->
+  <div class="section">
+    <h2>&#128195; Install</h2>
+    <p>One-line install for Linux / macOS / Git Bash:</p>
+    <pre>curl -fsSL https://raw.githubusercontent.com/jwl247/Phoenix-Package_handler/main/install.sh | bash</pre>
+    <p style="margin-top:.75rem">Windows PowerShell:</p>
+    <pre>irm https://raw.githubusercontent.com/jwl247/Phoenix-Package_handler/main/install.ps1 | iex</pre>
+    <p style="margin-top:.75rem">Quick start after install:</p>
+    <pre>intake help
+intake status
+intake ./myfile.sh
+intake backend nodejs winget 20.11.0</pre>
+  </div>
+
+</div>
+
+<footer>
+  Phoenix &mdash; Part of <strong>United Systems (USys)</strong> &bull;
+  GPL v3 &bull;
+  <a href="https://github.com/jwl247/Phoenix-Package_handler" target="_blank" rel="noopener">GitHub &rarr;</a>
+</footer>
+
 </body>
 </html>
