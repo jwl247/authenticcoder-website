@@ -1,0 +1,14 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "delicate-bird-169f",
+  "compatibility_date": "2026-04-20",
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "directory": "authenticcoder-site"
+  },
+  "compatibility_flags": [
+    "nodejs_compat"
+  ]
+}
