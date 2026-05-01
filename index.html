@@ -599,7 +599,7 @@
   <p class="hero-sub">Universal Intake &nbsp;·&nbsp; Automatic Tracking &nbsp;·&nbsp; Every Platform</p>
   <div class="badge-row">
     <span class="badge live">● Backend Live</span>
-    <span class="badge cyan">packages-worker v4.0.0</span>
+    <span class="badge cyan">packages-worker v2.1.0</span>
     <span class="badge">phoenix-catalog · D1</span>
     <span class="badge amber">Monster OS</span>
     <span class="badge">GPL v3</span>
@@ -661,7 +661,7 @@
       <div class="section-icon">⚡</div>
       <h2>Current Status</h2>
     </div>
-    <p>Backend is live and operational. The v4.0.0 worker now tracks clonepool, versions, custody, glossary, drivers, and builds — all in one place.</p>
+    <p>Backend is live and operational. The v2.1.0 worker tracks clonepool, versions, custody, glossary, packages, and installed records — all in one place.</p>
     <div class="status-grid">
       <div class="status-item">
         <div class="s-label">Worker</div>
@@ -768,10 +768,6 @@
       <div class="endpoint"><span class="method get">GET</span><span class="ep-path">/custody</span><span class="ep-desc">chain of custody log</span></div>
       <div class="endpoint"><span class="method get">GET</span><span class="ep-path">/glossary</span><span class="ep-desc">browse package glossary</span></div>
       <div class="endpoint"><span class="method post">POST</span><span class="ep-path">/glossary</span><span class="ep-desc">add / upsert entry (auth)</span></div>
-      <div class="endpoint"><span class="method get">GET</span><span class="ep-path">/drivers</span><span class="ep-desc">driver catalog</span></div>
-      <div class="endpoint"><span class="method post">POST</span><span class="ep-path">/drivers/report</span><span class="ep-desc">bulk driver report (auth)</span></div>
-      <div class="endpoint"><span class="method get">GET</span><span class="ep-path">/builds</span><span class="ep-desc">build registry</span></div>
-      <div class="endpoint"><span class="method post">POST</span><span class="ep-path">/builds</span><span class="ep-desc">register a build (auth)</span></div>
       <div class="endpoint"><span class="method get">GET</span><span class="ep-path">/search?q=</span><span class="ep-desc">cross-search everything</span></div>
     </div>
   </div>
@@ -821,10 +817,10 @@
           `<span>● Worker live</span> &nbsp;·&nbsp; ` +
           `clonepool: <span>${data.clonepool}</span> &nbsp;·&nbsp; ` +
           `custody: <span>${data.custody}</span> &nbsp;·&nbsp; ` +
-          `drivers: <span>${data.drivers}</span> &nbsp;·&nbsp; ` +
-          `builds: <span>${data.builds}</span>`;
+          `glossary: <span>${data.glossary}</span> &nbsp;·&nbsp; ` +
+          `packages: <span>${data.packages}</span>`;
       } else {
-        bar.querySelector('.live-text').textContent = 'Worker responded — deploy /init to bootstrap tables';
+        bar.querySelector('.live-text').textContent = '● Worker online';
       }
     } catch (e) {
       bar.querySelector('.live-dot').style.background = '#f5a623';
